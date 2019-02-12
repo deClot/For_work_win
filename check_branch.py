@@ -1,7 +1,7 @@
 import quan_number
 
 def Check_Branch (J0,J,Ka0,Ka,Kc0,Kc,Trans,I,E,Tr):
-    J,Ka,Kc,Trans,I,E=quan_number.Quantum_numbers (J,Ka,Kc,Trans,I,E)
+    J,Ka,Kc,Trans,I,E=quan_number.Quantum_numbers (J,Ka,Kc,Trans,I,E) #transform to int and float
 
     if abs(Ka-Ka0)<2 and abs(Kc-Kc0)<2:    # allowed transitions
         if J==J0:

@@ -36,6 +36,8 @@ def main_function(src):
            Ka0=int(Ka0)
            Kc0=int(Kc0)
 
+           transitions = []
+
            Up_State1 = Transition(J0, Ka0, Kc0)
            count+=1  # there if one series
            ref = Up_State1
@@ -48,10 +50,12 @@ def main_function(src):
 
        if str1.find('Sea',0,len(str1))!=-1:
            str1=str1.split()
-           _,J0,Ka0,Kc0,*_=str1
+           _,J0,Ka0,Kc0,*=str1
            J0=int(J0)
            Ka0=int(Ka0)
            Kc0=int(Kc0)
+
+           transitions = []
 
            #print (str1)
            #print (abs(ref.J-J0),abs (ref.Kc-Kc0),ref.Ka,Ka0)
@@ -70,7 +74,8 @@ def main_function(src):
                    elif ref == Up_State2:
                        ref = Up_State1
        else:
-           separate_transitions.Separate_transitions(J0,Ka0,Kc0,str1,ref)
+           separate_transitions.Separate_transitions(J0,Ka0,Kc0,str1,\
+                                                     transitions,ref)
 
    file2 = open('RESULTS', 'w')
 
