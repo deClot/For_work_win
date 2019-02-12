@@ -6,27 +6,24 @@ class Transition:
         self.J = J
         self.Ka= Ka
         self.Kc = Kc
-        self.R_Tr = []
-        self.Q_Tr = []
-        self.P_Tr = []
-        self.R_Tr_f1 = []
-        self.Q_Tr_f1 = []
-        self.P_Tr_f1 = []
-        self.R_Tr_f2 = []
-        self.Q_Tr_f2 = []
-        self.P_Tr_f2 = []
+        self.R_a = []
+        self.Q_a = []
+        self.P_a = []
+        self.R_b = []
+        self.Q_b = []
+        self.P_b = []
 ###########################################################
 
 def main_function(src):
-   file=open(src, 'r').readlines()
-   l=len(file)
+    file=open(src, 'r').readlines()
+    l=len(file)
 
-   for i in range(l):
+    for i in range(l):
        file[i] = replace(file[i])
        
-   count = 0   #counter for series (for connected series like 440 and 441 together in one file)
+       count = 0   #counter for series (for connected series like 440 and 441 together in one file)
 
-   for i in range(l):
+    for i in range(l):
        str1=file[i]
        
        if str1.find('Sea')!=-1:
@@ -45,12 +42,12 @@ def main_function(src):
            break
        print (count)
 
-   for i in range(l):
+    for i in range(l):
        str1=file[i]
 
        if str1.find('Sea',0,len(str1))!=-1:
            str1=str1.split()
-           _,J0,Ka0,Kc0,*=str1
+           _,J0,Ka0,Kc0,*_ = str1
            J0=int(J0)
            Ka0=int(Ka0)
            Kc0=int(Kc0)
@@ -77,13 +74,13 @@ def main_function(src):
            separate_transitions.Separate_transitions(J0,Ka0,Kc0,str1,\
                                                      transitions,ref)
 
-   file2 = open('RESULTS', 'w')
+    file2 = open('RESULTS', 'w')
 
-   if count > 1:
+    if count > 1:
        name_list = [Up_State1, Up_State2]
-   else: name_list = [Up_State1]
+    else: name_list = [Up_State1]
 
-   for name in name_list:
+    for name in name_list:
        file2.write('\n\n!!!!!!!!!!!!!\n')
        file2.write('!!!--R Branch--!!!\n')
        for i in range(len(name.R_Tr)):
@@ -133,7 +130,7 @@ def main_function(src):
                                                               name.P_Tr[i][0]-name.P_Tr[i-1][0]-\
                                                               name.P_Tr[i-1][0]+name.P_Tr[i-2][0] ))
 
-   for attribute in [name.P_Tr_f1,name.P_Tr_f2,name.R_Tr_f1,name.R_Tr_f2,\
+    for attribute in [name.P_Tr_f1,name.P_Tr_f2,name.R_Tr_f1,name.R_Tr_f2,\
                       name.Q_Tr_f1,name.Q_Tr_f2]:
        if len(attribute)!=0:
            file2.write('\n!!!--Forbidden Branch--!!!\n')
@@ -153,8 +150,8 @@ def main_function(src):
                                                                          -attribute[i-1][0]+attribute[i-2][0] ))
 
 
-   file2.close()
+    file2.close()
 
 
 
-
+main_function('In/v12.RESULT')
