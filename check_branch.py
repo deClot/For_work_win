@@ -4,8 +4,7 @@ def check_list_to_append(branch,Trans,I,J,Ka,Kc):
     '''
     Check lenght of list on losted transitions. If it exists - add empty line for corresponding quantum numbers
     '''
-    
-    if len(branch)>1:
+    if len(branch)>=1:
         while (branch[-1][2]+1 != J and branch[-1][4]+1 != Kc):
             branch.append([None,None,\
                            branch[-1][2]+1,branch[-1][3],\
@@ -15,7 +14,7 @@ def check_list_to_append(branch,Trans,I,J,Ka,Kc):
         branch.append([Trans,I,J,Ka,Kc])
         
 
-def Check_Branch (J0,J,Ka0,Ka,Kc0,Kc,Trans,I,E,Tr):
+def check_branch(J0,J,Ka0,Ka,Kc0,Kc,Trans,I,E,Tr):
     '''
     Chech branch on series name; add transition on corresponding quantum numbers;\
 if there are the emptities in list, add empty transitions for it
@@ -38,4 +37,4 @@ if there are the emptities in list, add empty transitions for it
                 check_list_to_append(Tr.P_a,Trans,I,J,Ka,Kc)
             elif abs(Ka-Ka0) == 1 and abs(Kc-Kc0) == 1:  # b type
                 check_list_to_append(Tr.P_b,Trans,I,J,Ka,Kc)
-   
+    
