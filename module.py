@@ -1,5 +1,6 @@
 import separate_transitions
 from replace_module import replace
+from check_series_transitions import check_series_transitions
 
 class Transition:
     def __init__(self, J, Ka, Kc):
@@ -15,57 +16,55 @@ class Transition:
 ###########################################################
 
 def main_function(src):
-    file=open(src, 'r').readlines()
-    l=len(file)
+    file_ini = open(src, 'r')
+    file_search = open ('search_corrected', 'w')
+      
+    count = 0 # counter for series (for connected series like 440 and 441 together in one file)
 
-    for i in range(l):
-       file[i] = replace(file[i])
-       
-       count = 0   #counter for series (for connected series like 440 and 441 together in one file)
-
-    for i in range(l):
-       str1=file[i]
-       
+    # Find first energy and create new object for correspinding series
+    for str1 in file_ini:
        if str1.find('Sea')!=-1:
+           file_search.write(str1)
+           
            str1=str1.split()
            _,J0,Ka0,Kc0,*_=str1 
-           J0=int(J0)
-           Ka0=int(Ka0)
-           Kc0=int(Kc0)
+           J0, Ka0, Kc0 =int(J0), int(Ka0), int(Kc0)
 
            transitions = []
 
            Up_State1 = Transition(J0, Ka0, Kc0)
-           count+=1  # there if one series
+           count += 1  #+1 for first series
            ref = Up_State1
-           print (str1)
            break
-       print (count)
 
-    for i in range(l):
-       str1=file[i]
-
+    # Go through all file_ini and find all energies for max two series 
+    for str1 in file_ini:
        if str1.find('Sea',0,len(str1))!=-1:
+           str1_ini = str1
            str1=str1.split()
            _,J0,Ka0,Kc0,*_ = str1
-           J0=int(J0)
-           Ka0=int(Ka0)
-           Kc0=int(Kc0)
+           J0, Ka0, Kc0 =int(J0), int(Ka0), int(Kc0)
+
+           #We registred next energy,so write info about previous energy in file
+
+           ### REWRITE TIS PART
+           file_search.write('\n'.join(transitions))
+           file_search.write('\n'+str1_ini)
 
            transitions = []
 
-           #print (str1)
-           #print (abs(ref.J-J0),abs (ref.Kc-Kc0),ref.Ka,Ka0)
-           if abs(ref.J-J0) == abs (ref.Kc-Kc0) and ref.Ka == Ka0:
+           # stay in same series
+           if abs(ref.J-J0) == abs(ref.Kc-Kc0) and ref.Ka == Ka0: 
                continue
+           
+           #change series
            else:
-               #print ('@')
-               if count == 1:
+               if count == 1: #if there is only one series than create new object for new series
                    Up_State2 = Transition(J0, Ka0, Kc0)
-                   count+=1
+                   count += 1
                    ref = Up_State2
                    continue
-               else:
+               else: # if already exist 2 series -> change series
                    if ref == Up_State1:
                        ref = Up_State2
                    elif ref == Up_State2:
@@ -79,6 +78,27 @@ def main_function(src):
     if count > 1:
        name_list = [Up_State1, Up_State2]
     else: name_list = [Up_State1]
+
+    for name in name_list:
+        file2.write('\t\t-type\t\tb-type\n')
+        file2.write('R branch\tQ branch\tP branch\t')
+        file2.write('R branch\tQ branch\tP branch\n')
+        branches = name.R_a, name.Q_a, name.P_a,\
+                   name.R_b, name.Q_b, name.P_b
+        max_len = max(map(len,branches))
+
+        print(name)
+        check_series_transitions(name)
+        
+        for i in range(max_len):
+            for branch in branches:
+                if i < len(branch):
+                    '''file2.write('%3d%3d%3d%12.5f%7.3f\n'%(branch[i][2],branch[i][3],
+                                                          branch[i][4],branch[i][0],
+                                                          branch[i][1]))
+                    '''
+                    continue
+    '''
 
     for name in name_list:
        file2.write('\n\n!!!!!!!!!!!!!\n')
@@ -149,7 +169,9 @@ def main_function(src):
                                                                          attribute[i][0]-attribute[i-1][0]\
                                                                          -attribute[i-1][0]+attribute[i-2][0] ))
 
+    '''
 
+    
     file2.close()
 
 
