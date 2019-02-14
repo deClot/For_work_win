@@ -1,6 +1,6 @@
 import separate_transitions
 from replace_module import replace
-from check_series_transitions import check_series_transitions
+from check_series_transitions import check_series_transitions_delta1
 
 class Transition:
     def __init__(self, J, Ka, Kc):
@@ -83,21 +83,26 @@ def main_function(src):
         file2.write('\t\t-type\t\tb-type\n')
         file2.write('R branch\tQ branch\tP branch\t')
         file2.write('R branch\tQ branch\tP branch\n')
-        branches = name.R_a, name.Q_a, name.P_a,\
-                   name.R_b, name.Q_b, name.P_b
+        branches = [name.R_a, name.Q_a, name.P_a,\
+                   name.R_b, name.Q_b, name.P_b]
         max_len = max(map(len,branches))
 
-        print(name)
-        check_series_transitions(name)
+        check_series_transitions_delta1(name)
         
-        for i in range(max_len):
-            for branch in branches:
-                if i < len(branch):
-                    '''file2.write('%3d%3d%3d%12.5f%7.3f\n'%(branch[i][2],branch[i][3],
+        for branch in branches:
+            #for i in range(max_len):
+            for i in range(len(branch)):
+                print (branch[i])
+                str2 = '\t'.join(map(str,branch[i]))
+                file2.write(str2)
+                file2.write('\n')
+                
+                #if i < len(branch):
+                '''file2.write('%3d%3d%3d%12.5f%7.3f\n'%(branch[i][2],branch[i][3],
                                                           branch[i][4],branch[i][0],
                                                           branch[i][1]))
                     '''
-                    continue
+                
     '''
 
     for name in name_list:
