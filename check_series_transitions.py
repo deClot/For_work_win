@@ -32,14 +32,27 @@ def calculate_delta(branch, i, delta_type):
         return None
 
 
-def fill_empties_delta (branch, i):
+def fill_empties_delta (branch, i, k):
     if len(branch[i]) != 7:
+        ##############
+        #It's work but may be can improve it
         try:
-            delta1, delta2 = fill_empties_delta(branch, i+1)
+            print (branch[i], k)
+            delta1, delta2 = fill_empties_delta(branch, i+k, k)
         except IndexError:
-            return None,None
-        if delta1 == None:
-            return None,None
+            if k == 1:
+                print ('End of file')
+                try:
+                    k = -1
+                    delta1, delta2 = fill_empties_delta(branch, i+k, k)
+                except:
+                    print ('Begin of file')
+                    delta1 = None
+        print (branch[i])
+                
+        if delta1 is None:
+            return None, None
+        #############
         
         if len(branch[i]) == 6:
             delta1 = branch[i][5]
@@ -53,6 +66,14 @@ def fill_empties_delta (branch, i):
     else:
         return branch[i][5], branch[i][6]
 
+def calculate_transitions(branch, i):
+    # calculate missing tr
+    if branch[i][1] is None:
+        try:
+            branch[i][0] = branch[i-1][0] + branch[i-1][5] + branch[i-1][6]
+        except IndexError:
+            return None
+
 
 def check_series_transitions_delta1(name):
     '''
@@ -61,8 +82,8 @@ def check_series_transitions_delta1(name):
     name - Transition()
     '''
 
-    branches = [name.R_a, name.Q_a, name.P_a,\
-               name.R_b, name.Q_b, name.P_b]
+    branches = [name.Q_b, name.Q_a,name.R_a, name.P_a,\
+               name.R_b, name.P_b ]
 
     for branch in branches:
         if len(branch) == 0:
@@ -79,8 +100,14 @@ def check_series_transitions_delta1(name):
 
         # calculate delta1 and delta 2 for empty transitions
         for i in range(0, len(branch)):
-            fill_empties_delta(branch, i)
-            input()
+            fill_empties_delta(branch, i, k=1)
+            #input()
+            
+
+        # calcalate missing, first*3 and last*3 transitions
+        for i in range(0, len(branch)):
+            calculate_transitions(branch, i)
+
         '''
         if J > Ka:
             for i in range(J,Ka,-1):
