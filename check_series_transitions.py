@@ -94,7 +94,27 @@ def calculate_beginning_serie(branch):
     else:
         return None     
    
-   
+def calculate_end_serie(branch, count = 3):
+    end = len(branch)-1
+    
+    #input()
+    if count > 0:
+        print (count)
+        print (branch[end])
+        try:
+            Tr = branch[end][0] + branch[end][5]
+            I, J, Ka, Kc = None, branch[end][2]+1, branch[end][3], branch[end][4]+1
+            delta1 = branch[end][5] + branch[end][6]
+            delta2 = branch[end][6]
+            branch.append([Tr, I, J, Ka, Kc, delta1, delta2])
+            count -= 1
+            print (count)
+            calculate_end_serie(branch, count)
+        except IndexError:
+            return None
+    else:
+        return None     
+    
 def check_series_transitions_delta1(name):
     '''
     Check transitions; if there are None - calculate possibale value;
@@ -102,7 +122,7 @@ def check_series_transitions_delta1(name):
     name - Transition()
     '''
 
-    branches = [name.Q_a,name.R_a, name.P_a,\
+    branches = [name.R_a,name.Q_a, name.P_a,\
                name.R_b, name.Q_b, name.P_b ]
 
     for branch in branches:
@@ -128,8 +148,11 @@ def check_series_transitions_delta1(name):
 
         # calculate first transitions up to 0
         calculate_beginning_serie(branch)
-        print ('resulrt =', branch)
-        input()
+
+        # calculate three next transitions
+        calculate_end_serie(branch)
+        
+        
 
         '''
         if J > Ka:
