@@ -33,32 +33,36 @@ def calculate_delta(branch, i, delta_type):
 
 
 def fill_empties_delta (branch, i, k):
+    # k - show in which propagation we go through file, +1 from beginning to end, -1 v.v.
     if len(branch[i]) != 7:
         ##############
-        #It's work but may be can improve it
+        #It's work but may be improved it
         try:
-            print (branch[i], k)
+            # if there is next transitions - go to next and take it deltas
             delta1, delta2 = fill_empties_delta(branch, i+k, k)
         except IndexError:
+            # if end of file
             if k == 1:
-                print ('End of file')
+                #print ('End of file')
                 try:
                     k = -1
                     delta1, delta2 = fill_empties_delta(branch, i+k, k)
                 except:
-                    print ('Begin of file')
+                    #print ('Begin of file')
                     delta1 = None
-        print (branch[i])
+        #print (branch[i])
                 
         if delta1 is None:
             return None, None
         #############
-        
+
+        # if delta1 and delta2 exist
         if len(branch[i]) == 6:
             delta1 = branch[i][5]
             branch[i].append(delta2)
             return delta1, delta2
 
+        # if only delta1 exsits
         if len(branch[i]) == 5:
             branch[i].append(delta1-delta2)
             branch[i].append(delta2)
@@ -66,15 +70,31 @@ def fill_empties_delta (branch, i, k):
     else:
         return branch[i][5], branch[i][6]
 
-def calculate_transitions(branch, i):
+def calculate_None_transitions(branch, i):
     # calculate missing tr
-    if branch[i][1] is None:
+    if branch[i][0] is None:
         try:
             branch[i][0] = branch[i-1][0] + branch[i-1][5] + branch[i-1][6]
         except IndexError:
+            print ('delta1 ot delta2 are not determined', branch[i])
             return None
 
 
+def calculate_beginning_serie(branch):
+    if branch[0][2] > branch[0][3] and branch[0][2] >= 0 : # J > Ka
+        try:
+            Tr = branch[0][0] - branch[0][5]
+            I, J, Ka, Kc = None, branch[0][2]-1, branch[0][3], branch[0][4]-1
+            delta1 = branch[0][5] - branch[0][6]
+            delta2 = branch[0][6]
+            branch.insert(0, [Tr, I, J, Ka, Kc, delta1, delta2])
+            calculate_beginning_serie(branch)
+        except IndexError:
+            return None
+    else:
+        return None     
+   
+   
 def check_series_transitions_delta1(name):
     '''
     Check transitions; if there are None - calculate possibale value;
@@ -82,8 +102,8 @@ def check_series_transitions_delta1(name):
     name - Transition()
     '''
 
-    branches = [name.Q_b, name.Q_a,name.R_a, name.P_a,\
-               name.R_b, name.P_b ]
+    branches = [name.Q_a,name.R_a, name.P_a,\
+               name.R_b, name.Q_b, name.P_b ]
 
     for branch in branches:
         if len(branch) == 0:
@@ -98,15 +118,18 @@ def check_series_transitions_delta1(name):
         for i in range(1, len(branch)):
             calculate_delta(branch, i, delta_type=2)
 
-        # calculate delta1 and delta 2 for empty transitions
+        # calculate delta1 and delta2 for empty transitions
         for i in range(0, len(branch)):
             fill_empties_delta(branch, i, k=1)
-            #input()
             
-
-        # calcalate missing, first*3 and last*3 transitions
+        # calculate missing (None) transitions
         for i in range(0, len(branch)):
-            calculate_transitions(branch, i)
+            calculate_None_transitions(branch, i)
+
+        # calculate first transitions up to 0
+        calculate_beginning_serie(branch)
+        print ('resulrt =', branch)
+        input()
 
         '''
         if J > Ka:
