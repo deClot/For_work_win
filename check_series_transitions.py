@@ -76,7 +76,6 @@ def calculate_None_transitions(branch, i):
         try:
             branch[i][0] = branch[i-1][0] + branch[i-1][5] + branch[i-1][6]
         except IndexError:
-            print ('delta1 ot delta2 are not determined', branch[i])
             return None
 
 
@@ -99,8 +98,6 @@ def calculate_end_serie(branch, count = 3):
     
     #input()
     if count > 0:
-        print (count)
-        print (branch[end])
         try:
             Tr = branch[end][0] + branch[end][5]
             I, J, Ka, Kc = None, branch[end][2]+1, branch[end][3], branch[end][4]+1
@@ -108,56 +105,40 @@ def calculate_end_serie(branch, count = 3):
             delta2 = branch[end][6]
             branch.append([Tr, I, J, Ka, Kc, delta1, delta2])
             count -= 1
-            print (count)
             calculate_end_serie(branch, count)
         except IndexError:
             return None
     else:
         return None     
     
-def check_series_transitions_delta1(name):
+def check_series_transitions_delta1(branch):
     '''
     Check transitions; if there are None - calculate possibale value;
     calculate deltas for all transitions;
-    name - Transition()
     '''
+    if len(branch) == 0:
+        return None
+    J, Ka = branch[0][2],branch[0][3]
 
-    branches = [name.R_a,name.Q_a, name.P_a,\
-               name.R_b, name.Q_b, name.P_b ]
-
-    for branch in branches:
-        if len(branch) == 0:
-            continue
-        J, Ka = branch[0][2],branch[0][3]
-
-        # calculate delta1 for excisting transitions
-        for i in range(1, len(branch)):
-            calculate_delta(branch, i, delta_type=1)
-            
-        # calculate delta2 for excisting transitions
-        for i in range(1, len(branch)):
-            calculate_delta(branch, i, delta_type=2)
-
-        # calculate delta1 and delta2 for empty transitions
-        for i in range(0, len(branch)):
-            fill_empties_delta(branch, i, k=1)
-            
-        # calculate missing (None) transitions
-        for i in range(0, len(branch)):
-            calculate_None_transitions(branch, i)
-
-        # calculate first transitions up to 0
-        calculate_beginning_serie(branch)
-
-        # calculate three next transitions
-        calculate_end_serie(branch)
+    # calculate delta1 for excisting transitions
+    for i in range(1, len(branch)):
+        calculate_delta(branch, i, delta_type=1)
         
-        
+    # calculate delta2 for excisting transitions
+    for i in range(1, len(branch)):
+        calculate_delta(branch, i, delta_type=2)
 
-        '''
-        if J > Ka:
-            for i in range(J,Ka,-1):
-                
-                print (branch)
-        '''
+    # calculate delta1 and delta2 for empty transitions
+    for i in range(0, len(branch)):
+        fill_empties_delta(branch, i, k=1)
+        
+    # calculate missing (None) transitions
+    for i in range(0, len(branch)):
+        calculate_None_transitions(branch, i)
+
+    # calculate first transitions up to 0
+    calculate_beginning_serie(branch)
+    
+    # calculate three next transitions
+    calculate_end_serie(branch)
 
