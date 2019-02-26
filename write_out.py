@@ -27,7 +27,7 @@ def write_predictions(branches, file2):
         file2.write('\n')
     file2.write('-'*(45*len(branches))+'\n'*2)
 
-def write_search(name, counter, file_search):
+def write_search(name,  file_search):
     branches_a = [name.R_a, name.Q_a, name.P_a]
     branches_b = [name.R_b, name.Q_b, name.P_b]
 

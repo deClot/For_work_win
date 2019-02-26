@@ -35,6 +35,7 @@ def main_function(src):
            transitions = []
 
            Up_State1 = Transition(J0, Ka0, Kc0)
+           Up = Transition(J0, Ka0, Kc0)
            count += 1  #+1 for first series
            ref = Up_State1
            break
@@ -50,9 +51,10 @@ def main_function(src):
 
            #We registred next energy,so write info about previous energy in file
            print(counter)
-           write_search(ref,counter,file_search)
+           write_search(Up,file_search)
            file_search.write('  '+str1)
 
+           Up = Transition(J0, Ka0, Kc0)
            # stay in same series
            if abs(ref.J-J0) == abs(ref.Kc-Kc0) and ref.Ka == Ka0:
                counter += 1         
@@ -74,7 +76,7 @@ def main_function(src):
                         
        else:
            separate_transitions.Separate_transitions(J0,Ka0,Kc0,str1,\
-                                                     transitions,ref)
+                                                     transitions,ref,Up)
 
     file2 = open('RESULTS', 'w')
 
