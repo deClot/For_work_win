@@ -19,14 +19,14 @@ class Transition:
 
 def main_function(src):
     file_ini = open(src, 'r')
-    file_search = open ('search_corrected', 'w')
+    file_search = open ('search', 'w')
       
     count = 0 # counter for series (for connected series like 440 and 441 together in one file)
 
     # Find first energy and create new object for correspinding series
     for str1 in file_ini:
        if str1.find('Sea')!=-1:
-           file_search.write('  '+str1)
+           file_search.write('   '+str1)
            
            str1=str1.split()
            _,J0,Ka0,Kc0,*_=str1 
@@ -52,7 +52,7 @@ def main_function(src):
            #We registred next energy,so write info about previous energy in file
            print(counter)
            write_search(Up,file_search)
-           file_search.write('  '+str1)
+           file_search.write('   '+str1)
 
            Up = Transition(J0, Ka0, Kc0)
            # stay in same series

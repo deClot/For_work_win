@@ -33,22 +33,33 @@ def write_search(name,  file_search):
 
     for types in (branches_a, branches_b):
         template = []
-        print('-------------')
         for branch in types:
-            print(branch)
-            try:
-                print(branch[-1])
-                print('----')
-            
+            try:    
                 template.append(correction_tr_search(branch[-1]))
             except IndexError:
                 template.append('')
 
+        #check that transitions for type exist
         count = 0
         for el in template:
             if el == '':
                 count += 1
         if count == 3:
+            continue
+
+        #check P branch
+        if template[-1] == '' and template[1] == '':
+            file_search.write('   {:>37}\n\n'.format(*template))
+            continue
+        if template[0] == '' and template[1] == '':
+            file_search.write('{:>81}\n\n'.format(template[-1]))
+            continue
+        if template[-1] == '':
+            file_search.write('   {:>37}{:>41}\n\n'.format(*template))
+            continue
+        if template[1] == '':
+            file_search.write('   {:>37}\n{:>81}\n\n'.format(template[0], \
+                                                             template[-1]))
             continue
             
         file_search.write('   {:>37}{:>40}\n{:>81}\n\n'.format(*template))
