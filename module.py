@@ -2,9 +2,10 @@ import separate_transitions
 from replace_module import replace
 
 from write_out import write_predictions
+from quan_number import format_for_search
 
 class Transition:
-    def __init__(self, J, Ka, Kc):
+    def __init__(self, J=0, Ka=0, Kc=0):
         self.J = J
         self.Ka= Ka
         self.Kc = Kc
@@ -38,22 +39,24 @@ def main_function(src):
            ref = Up_State1
            break
 
+    counter = 0
+    
     # Go through all file_ini and find all energies for max two series 
     for str1 in file_ini:
        if str1.find('Sea',0,len(str1))!=-1:
-           str1_ini = str1
-           str1=str1.split()
-           _,J0,Ka0,Kc0,*_ = str1
+           _,J0,Ka0,Kc0,*_ = str1.split()
            J0, Ka0, Kc0 =int(J0), int(Ka0), int(Kc0)
 
            #We registred next energy,so write info about previous energy in file
 
-           ### REWRITE TIS PART
-           file_search.write('\n'.join(transitions))
-           file_search.write('\n'+str1_ini)
+           ### REWRITE ThIS PART
+           #file_search.write('\n'.join(transitions))
+           #file_search.write('\n'+str1)
 
+           format_for_search(ref, counter)
+           #print(transitions)
            transitions = []
-
+           counter += 1
            # stay in same series
            if abs(ref.J-J0) == abs(ref.Kc-Kc0) and ref.Ka == Ka0: 
                continue

@@ -1,4 +1,4 @@
-from check_series_transitions import check_series_transitions_delta1
+from check_series_transitions import check_series_transitions_delta
 from quan_number import correction_info_tr, format_for_output
 
 def write_predictions(branches, file2):
@@ -8,7 +8,7 @@ def write_predictions(branches, file2):
   
     #calculete all possible transitions and deltas
     for branch in branches:
-        check_series_transitions_delta1(branch)
+        check_series_transitions_delta(branch)
     
     max_len = max(list(map(lambda x:len(x),branches)))
     #for writing out by 1 type of transitions

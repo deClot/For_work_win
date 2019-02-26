@@ -19,7 +19,7 @@ def correction_info_tr(branch):
     else:
         branch[1] = ''
         
-    for i in (5,6):
+    for i in (6,7):
         try:
             branch[i] = round(branch[i],3)
         except IndexError:
@@ -27,7 +27,7 @@ def correction_info_tr(branch):
 
 def format_for_output(branch):
     template = '{:<10}{:>6}{:>4}{:>3}{:>3} |'.format(*branch)
-    for i in (5,6):
+    for i in (6,7):
         try:
             template_delta = '{:<6} '.format(*branch[i:])
             template += template_delta
@@ -35,3 +35,13 @@ def format_for_output(branch):
             return template
 
     return template
+
+def format_for_search(ref,counter):
+    branches = (ref.R_a, ref.Q_a, ref.P_a,\
+                ref.R_b, ref.Q_b, ref.P_b)
+    print(counter)
+    try:
+        print(ref.R_a[counter])
+    except IndexError:
+        pass
+    
