@@ -3,19 +3,20 @@ def Quantum_numbers (J,Ka,Kc,Trans,I,E):
     Ka=int(Ka)
     Kc=int(Kc)
     Trans = float(Trans)
-    I = float (I)/100-0.005
+    I = float (I)
     E = float (E)
 
     return J,Ka,Kc,Trans,I,E
 
-def correction_info_tr(branch):
+def correction_tr_pred(branch):
     if branch[0] is None:
         branch[0] = ''
-        branch[1] = ''
-        return None
-    branch[0] = round(branch[0], 5)
+    #    branch[1] = ''
+    else:
+        branch[0] = round(branch[0], 5)
+
     if branch[1] != None:
-        branch[1] = round(branch[1]*100, 1)
+        branch[1] = round(branch[1], 1)
     else:
         branch[1] = ''
         
@@ -24,6 +25,18 @@ def correction_info_tr(branch):
             branch[i] = round(branch[i],3)
         except IndexError:
             return None
+
+
+def correction_tr_search(branch):
+    #print(branch)
+    branch[0] = round(branch[0], 5)
+    branch[1] = round(branch[1], 1)
+    branch[5] = round(branch[5], 5)
+    new = [branch[2],branch[3],branch[4],branch[0],branch[1],branch[5]]
+
+    template = '{:>3}{:>3}{:>3}{:>12}{:>5}{:>12}'.format(*new)
+    return template
+    
 
 def format_for_output(branch):
     template = '{:<10}{:>6}{:>4}{:>3}{:>3} |'.format(*branch)
@@ -35,13 +48,4 @@ def format_for_output(branch):
             return template
 
     return template
-
-def format_for_search(ref,counter):
-    branches = (ref.R_a, ref.Q_a, ref.P_a,\
-                ref.R_b, ref.Q_b, ref.P_b)
-    print(counter)
-    try:
-        print(ref.R_a[counter])
-    except IndexError:
-        pass
     

@@ -1,8 +1,8 @@
 import separate_transitions
 from replace_module import replace
 
-from write_out import write_predictions
-from quan_number import format_for_search
+from write_out import write_predictions, write_search
+
 
 class Transition:
     def __init__(self, J=0, Ka=0, Kc=0):
@@ -26,7 +26,7 @@ def main_function(src):
     # Find first energy and create new object for correspinding series
     for str1 in file_ini:
        if str1.find('Sea')!=-1:
-           file_search.write(str1)
+           file_search.write('  '+str1)
            
            str1=str1.split()
            _,J0,Ka0,Kc0,*_=str1 
@@ -39,6 +39,7 @@ def main_function(src):
            ref = Up_State1
            break
 
+
     counter = 0
     
     # Go through all file_ini and find all energies for max two series 
@@ -48,24 +49,19 @@ def main_function(src):
            J0, Ka0, Kc0 =int(J0), int(Ka0), int(Kc0)
 
            #We registred next energy,so write info about previous energy in file
+           print(counter)
+           write_search(ref,counter,file_search)
+           file_search.write('  '+str1)
 
-           ### REWRITE ThIS PART
-           #file_search.write('\n'.join(transitions))
-           #file_search.write('\n'+str1)
-
-           format_for_search(ref, counter)
-           #print(transitions)
-           transitions = []
-           counter += 1
            # stay in same series
-           if abs(ref.J-J0) == abs(ref.Kc-Kc0) and ref.Ka == Ka0: 
+           if abs(ref.J-J0) == abs(ref.Kc-Kc0) and ref.Ka == Ka0:
+               counter += 1         
                continue
-           
            #change series
            else:
                if count == 1: #if there is only one series than create new object for new series
                    Up_State2 = Transition(J0, Ka0, Kc0)
-                   count += 1
+                   count += 1 # for series
                    ref = Up_State2
                    continue
                else: # if already exist 2 series -> change series
@@ -73,6 +69,9 @@ def main_function(src):
                        ref = Up_State2
                    elif ref == Up_State2:
                        ref = Up_State1
+                       counter += 1
+           
+                        
        else:
            separate_transitions.Separate_transitions(J0,Ka0,Kc0,str1,\
                                                      transitions,ref)

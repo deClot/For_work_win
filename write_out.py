@@ -1,5 +1,5 @@
 from check_series_transitions import check_series_transitions_delta
-from quan_number import correction_info_tr, format_for_output
+from quan_number import correction_tr_pred, format_for_output, correction_tr_search
 
 def write_predictions(branches, file2):
     for branch in branches:
@@ -16,7 +16,7 @@ def write_predictions(branches, file2):
         for branch in branches:               
         #for i in range(len(branch)):
             try:
-                correction_info_tr(branch[i])
+                correction_tr_pred(branch[i])
                 branch[i] = format_for_output(branch[i])
                 
                 file2.write('{:<41}'.format(branch[i])+'|| ')
@@ -27,3 +27,32 @@ def write_predictions(branches, file2):
         file2.write('\n')
     file2.write('-'*(45*len(branches))+'\n'*2)
 
+def write_search(name, counter, file_search):
+    branches_a = [name.R_a, name.Q_a, name.P_a]
+    branches_b = [name.R_b, name.Q_b, name.P_b]
+
+    for types in (branches_a, branches_b):
+        template = []
+        print('-------------')
+        for branch in types:
+            print(branch)
+            try:
+                print(branch[-1])
+                print('----')
+            
+                template.append(correction_tr_search(branch[-1]))
+            except IndexError:
+                template.append('')
+
+        count = 0
+        for el in template:
+            if el == '':
+                count += 1
+        if count == 3:
+            continue
+            
+        file_search.write('   {:>37}{:>40}\n{:>81}\n\n'.format(*template))
+
+            
+            
+            
