@@ -97,7 +97,7 @@ def calculate_end_serie(branch, count = 3):
     #input()
     if count > 0:
         try:
-            Tr = branch[end][0] + branch[end][6]
+            Tr = branch[end][0] + branch[end][6] + branch[end][7]
             I, J, Ka, Kc = None, branch[end][2]+1, branch[end][3], branch[end][4]+1
             delta1 = branch[end][6] + branch[end][7]
             delta2 = branch[end][7]
