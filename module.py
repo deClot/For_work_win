@@ -69,7 +69,8 @@ def main_function(src):
                        ref = Up_State1
        else:
            separate_transitions.Separate_transitions(J0,Ka0,Kc0,str1,\
-                                                     ref,Up)
+                                                    ref,Up)
+    write_search(Up,file_search)
     file_ini.close()
     file2 = open('RESULTS', 'w')
 
