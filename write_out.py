@@ -5,7 +5,7 @@ def write_predictions(branches, file2):
     for branch in branches:
         if len(branch) == 0:
             branches.remove(branch)
-  
+    print(branches)
     #calculete all possible transitions and deltas
     for branch in branches:
         check_series_transitions_delta(branch)
@@ -30,8 +30,9 @@ def write_predictions(branches, file2):
 def write_search(name,  file_search):
     branches_a = [name.R_a, name.Q_a, name.P_a]
     branches_b = [name.R_b, name.Q_b, name.P_b]
+    branches_c = [name.R_c, name.Q_c, name.P_c]
 
-    for types in (branches_a, branches_b):
+    for types in (branches_a, branches_b, branches_c):
         template = []
         for branch in types:
             try:    

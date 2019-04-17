@@ -15,9 +15,13 @@ class Transition:
         self.R_b = []
         self.Q_b = []
         self.P_b = []
+        self.R_c = []
+        self.Q_c = []
+        self.P_c = []
 ###########################################################
 
 def main_function(src):
+    #type_tr = input('a-type = 1, b-type = 2, c-type = 3')
     file_ini = open(src, 'r')
     file_search = open ('search', 'w')
       
@@ -83,8 +87,9 @@ def main_function(src):
         
         branches_a = [name.R_a, name.P_a, name.Q_a]
         branches_b = [name.R_b, name.P_b, name.Q_b]
+        branches_c = [name.R_c, name.P_c, name.Q_c]
         
-        for branches in (branches_a, branches_b):
+        for branches in (branches_a, branches_b, branches_c):
             write_predictions(branches, file2)
             
     file2.close()

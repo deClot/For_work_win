@@ -30,6 +30,9 @@ if there are the emptities in list, add empty transitions for it
             elif abs(Ka-Ka0) == 1 and abs(Kc-Kc0) == 1:  # b type
                 check_list_to_append(Tr.Q_b,Trans,I,J,Ka,Kc,E)
                 check_list_to_append(Up.Q_b,Trans,I,J,Ka,Kc,E)
+            elif abs(Ka-Ka0) == 1 and abs(Kc-Kc0) == 0:  # c type
+                check_list_to_append(Tr.Q_c,Trans,I,J,Ka,Kc,E)
+                check_list_to_append(Up.Q_c,Trans,I,J,Ka,Kc,E)
         elif J<J0:
             if   abs(Ka-Ka0) == 0 and abs(Kc-Kc0) == 1:  # a type
                 check_list_to_append(Tr.R_a,Trans,I,J,Ka,Kc,E)
@@ -37,6 +40,9 @@ if there are the emptities in list, add empty transitions for it
             elif abs(Ka-Ka0) == 1 and abs(Kc-Kc0) == 1:  # b type
                 check_list_to_append(Tr.R_b,Trans,I,J,Ka,Kc,E)
                 check_list_to_append(Up.R_b,Trans,I,J,Ka,Kc,E)
+            elif abs(Ka-Ka0) == 1 and abs(Kc-Kc0) == 0:  # c type
+                check_list_to_append(Tr.R_c,Trans,I,J,Ka,Kc,E)
+                check_list_to_append(Up.R_c,Trans,I,J,Ka,Kc,E)
         elif J>J0:
             if   abs(Ka-Ka0) == 0 and abs(Kc-Kc0) == 1:  # a type
                 check_list_to_append(Tr.P_a,Trans,I,J,Ka,Kc,E)
@@ -44,4 +50,7 @@ if there are the emptities in list, add empty transitions for it
             elif abs(Ka-Ka0) == 1 and abs(Kc-Kc0) == 1:  # b type
                 check_list_to_append(Tr.P_b,Trans,I,J,Ka,Kc,E)
                 check_list_to_append(Up.P_b,Trans,I,J,Ka,Kc,E)
+            elif abs(Ka-Ka0) == 1 and abs(Kc-Kc0) == 0:  # c type
+                check_list_to_append(Tr.P_c,Trans,I,J,Ka,Kc,E)
+                check_list_to_append(Up.P_c,Trans,I,J,Ka,Kc,E)
     
