@@ -27,44 +27,75 @@ def write_predictions(branches, file2):
         file2.write('\n')
     file2.write('-'*(45*len(branches))+'\n'*2)
 
+def add_to_list_line(branch, list_branch):
+    try:
+        list_branch.append(correction_tr_search(branch[-1]))
+    except IndexError:   # errors will be if branch is empty
+        list_branch.append('')
+        
+    return list_branch
+
 def write_search(name,  file_search):
-    branches_a = [name.R_a, name.Q_a, name.P_a]
-    branches_b = [name.R_b, name.Q_b, name.P_b]
-    branches_c = [name.R_c, name.Q_c, name.P_c]
+    #branches_a = [name.R_a, name.Q_a, name.P_a]
+    #branches_b = [name.R_b, name.Q_b, name.P_b]
+    #branches_c = [name.R_c, name.Q_c, name.P_c]
 
-    for types in (branches_a, branches_b, branches_c):
-        template = []
-        for branch in types:
-            try:    
-                template.append(correction_tr_search(branch[-1]))
-            except IndexError:
-                template.append('')
+    types = [name.a, name.b, name.c]
+    #types = [name.c]
+    
+    for t in types:
+        branches = [t.R, t.Q, t.P]
 
+        templates = []
+
+        lines_allowed = []
+        lines_forbidden = []
+        for branch in branches:
+            print('Strat branhch')
+            list_branch_allowed = []
+            list_branch_forbidden= []
+            for k in branch.keys():
+                d_ka, d_kc = k
+                print(k, d_ka, d_kc)
+                if abs(d_ka) <= 1 and abs(d_kc) <= 1:
+                    print('Allowed')
+                    list_branch_allowed = add_to_list_line(branch[k], list_branch_allowed)
+                else:
+                    print('Forbidden')
+                    list_branch_forbidden = add_to_list_line(branch[k], list_branch_forbidden)
+            lines_allowed.append(list_branch_allowed)
+            lines_forbidden.append(list_branch_forbidden)
+                    
+        print( lines_allowed)
+        print(lines_forbidden)
+        a=input()
+                
+        '''
         #check that transitions for type exist
         count = 0
-        for el in template:
-            if el == '':
+        for el in templates:
+            if el == '':   # empty line
                 count += 1
         if count == 3:
             continue
 
         #check P branch
-        if template[-1] == '' and template[1] == '':
-            file_search.write('   {:>37}\n\n'.format(*template))
+        if templates[-1] == '' and templates[1] == '':
+            file_search.write('   {:>37}\n\n'.format(*templates))
             continue
-        if template[0] == '' and template[1] == '':
-            file_search.write('{:>81}\n\n'.format(template[-1]))
+        if templates[0] == '' and templates[1] == '':
+            file_search.write('{:>81}\n\n'.format(templates[-1]))
             continue
-        if template[-1] == '':
-            file_search.write('   {:>37}{:>41}\n\n'.format(*template))
+        if templates[-1] == '':
+            file_search.write('   {:>37}{:>41}\n\n'.format(*templates))
             continue
-        if template[1] == '':
-            file_search.write('   {:>37}\n{:>81}\n\n'.format(template[0], \
-                                                             template[-1]))
+        if templates[1] == '':
+            file_searchs.write('   {:>37}\n{:>81}\n\n'.format(templates[0], \
+                                                             templates[-1]))
             continue
             
-        file_search.write('   {:>37}{:>40}\n{:>81}\n\n'.format(*template))
+        file_search.write('   {:>37}{:>40}\n{:>81}\n\n'.format(*templates))
 
-            
+       '''     
             
             

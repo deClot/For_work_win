@@ -29,12 +29,16 @@ def correction_tr_pred(branch):
 
 def correction_tr_search(branch):
     #print(branch)
-    branch[0] = round(branch[0], 5)
-    branch[1] = round(branch[1], 1)
-    branch[5] = round(branch[5], 5)
-    new = [branch[2],branch[3],branch[4],branch[0],branch[1],branch[5]]
+    branch[0] = round(branch[0], 5)  # transiriona value
+    branch[1] = round(branch[1], 1)  # transmition/absorption
+    branch[5] = round(branch[5], 5)  # energy of upper state
 
+    new = [branch[2],branch[3],branch[4],branch[0],branch[1],branch[5]]
+             #J        Ka       Kc         Tr       I          E
     template = '{:>3}{:>3}{:>3}{:>12}{:>5}{:>12}'.format(*new)
+
+    if len(branch) == 7:  # for line with comments
+        template += '   ' + branch[-1]
     return template
     
 

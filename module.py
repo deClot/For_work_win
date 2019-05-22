@@ -18,6 +18,61 @@ class Transition:
         self.R_c = []
         self.Q_c = []
         self.P_c = []
+
+class Seria:
+    def __init__(self, J=0,Ka=0, Kc=0):
+        self.J = J
+        self.Ka= Ka
+        self.Kc = Kc
+        self.a = Transition_a_type()
+        self.b = Transition_b_type()
+        self.c = Transition_c_type()
+
+class Transition_a_type:
+    def __init__(self):
+        self.R = {(0, -1) : [],
+                  (-2, +1) : [],
+                  (+2, -3) : []}
+        self.Q = {(0, +1) : [],
+                  (+2, -1) : [],
+                  (-2, +3) : []}
+        self.P = {(0, +1) : [],
+                  (+2, -1) : [],
+                  (-2, +3) : []}
+
+class Transition_b_type:
+    def __init__(self):
+        self.R = {(-1, -1) : [],
+                  (+1, -3) : [],
+                  (-3, +1) : [],
+                  (-1, +1) : [],
+                  (+1, -1) : [],
+                  (-3, +3) : [],
+                  (+3, -3) : []}
+        self.Q = {(-1, +1) : [],
+                  (+1, -1) : [],
+                  (-3, +3) : [],
+                  (+3, -3) : []}
+        self.P = {(+1, +1) : [],
+                  (-1, +3) : [],
+                  (+3, -1) : [],
+                  (-1, +1) : [],
+                  (+1, -1) : [],
+                  (-3, +3) : [],
+                  (+3, -3) : []}
+
+class Transition_c_type:
+    def __init__(self):
+        self.R = {(-1, 0) : [],
+                  (+1, -2) : [],
+                  (-3, +2) : []}
+        self.Q = {(+1, 0) : [],
+                  (-1, +2) : [],
+                  (+3, -2) : []}
+        self.P = {(+1, 0) : [],
+                  (-1, +2) : [],
+                  (+3, -2) : []}
+
 ###########################################################
 
 def main_function(src):
@@ -36,7 +91,7 @@ def main_function(src):
            _,J0,Ka0,Kc0,*_=str1 
            J0, Ka0, Kc0 =int(J0), int(Ka0), int(Kc0)
 
-           Up_State1 = Transition(J0, Ka0, Kc0)
+           Up_State1 = Seria(J0, Ka0, Kc0)
            Up = Transition(J0, Ka0, Kc0)
            count += 1  #+1 for first series
            ref = Up_State1
@@ -52,7 +107,7 @@ def main_function(src):
            J0, Ka0, Kc0 =int(J0), int(Ka0), int(Kc0)
 
            #We registred next energy,so write info about previous energy in file
-           write_search(Up,file_search)
+           write_search(Up_State1,file_search)
            file_search.write('   '+str1)
 
            Up = Transition(J0, Ka0, Kc0)
@@ -62,7 +117,7 @@ def main_function(src):
            #change series
            else:
                if count == 1: #if there is only one series than create new object for new series
-                   Up_State2 = Transition(J0, Ka0, Kc0)
+                   Up_State2 = Seria(J0, Ka0, Kc0)
                    count += 1 # for series
                    ref = Up_State2
                    continue
@@ -72,8 +127,11 @@ def main_function(src):
                    elif ref == Up_State2:
                        ref = Up_State1
        else:
+           print(str1)
            separate_transitions.Separate_transitions(J0,Ka0,Kc0,str1,\
                                                     ref,Up)
+    print('Finished reading file')
+    print(Up_State1.c.P)
     write_search(Up,file_search)
     file_ini.close()
     file2 = open('RESULTS', 'w')
