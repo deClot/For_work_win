@@ -6,7 +6,9 @@ def check_list_to_append(branch,Trans,I,J,Ka,Kc,E):
     Check lenght of list on losted transitions. If it exists - add empty line for corresponding quantum numbers
     '''
     if len(branch)>=1:
-        while (branch[-1][2]+1 != J and branch[-1][4]+1 != Kc):
+        # If current transitions is not uniform continuation of last transitions. Compare J and Ka
+        while (branch[-1][2]+1 < J and branch[-1][4]+1 < Kc):  
+            print('Adding empty transitions')
             branch.append([None,None,\
                            branch[-1][2]+1,branch[-1][3],\
                            branch[-1][4]+1, None])
