@@ -66,20 +66,20 @@ def write_search(name,  file_search):
             lines_allowed.append(list_branch_allowed)
             lines_forbidden.append(list_branch_forbidden)
                     
-        print( lines_allowed)
-        print(lines_forbidden)
-        a=input()
-                
-        '''
-        #check that transitions for type exist
+        #print( lines_allowed)
+        #print(lines_forbidden)
+        
+        #check that transitions for type are exist
         count = 0
-        for el in templates:
+        for el in lines_allowed:
             if el == '':   # empty line
                 count += 1
         if count == 3:
             continue
 
-        #check P branch
+        '''
+        #check number of P-lines
+        if len(lines_allowed)
         if templates[-1] == '' and templates[1] == '':
             file_search.write('   {:>37}\n\n'.format(*templates))
             continue
@@ -96,6 +96,6 @@ def write_search(name,  file_search):
             
         file_search.write('   {:>37}{:>40}\n{:>81}\n\n'.format(*templates))
 
-       '''     
+        '''    
             
             

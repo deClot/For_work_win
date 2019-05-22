@@ -76,43 +76,43 @@ if there are the emptities in list, add empty transitions for it
     delta_Ka, delta_Kc = Ka - Ka0, Kc - Kc0
 
     if J<J0:                                         # R branch
-        #print('R branch')
-          
         if   abs(Ka-Ka0)%2 == 0 and abs(Kc-Kc0)%2 == 1:  # a type
             check_list_to_append(Tr.a.R[(delta_Ka,delta_Kc)],Trans,I,J,Ka,Kc,E)
-            #check_list_to_append(Up.R_a,Trans,I,J,Ka,Kc,E)
+            check_list_to_append(Up.a.R[(delta_Ka,delta_Kc)],Trans,I,J,Ka,Kc,E)
         elif abs(Ka-Ka0)%2 == 1 and abs(Kc-Kc0)%2 == 1:  # b type
             check_list_to_append(Tr.b.R[(delta_Ka,delta_Kc)],Trans,I,J,Ka,Kc,E)
-            #check_list_to_append(Up.R_b,Trans,I,J,Ka,Kc,E)
+            check_list_to_append(Up.b.R[(delta_Ka,delta_Kc)],Trans,I,J,Ka,Kc,E)
         elif abs(Ka-Ka0)%2 == 1 and abs(Kc-Kc0)%2 == 0:  # c type
-            #print('c type')
+            print('c type')
             check_list_to_append(Tr.c.R[(delta_Ka,delta_Kc)],Trans,I,J,Ka,Kc,E)
-            #check_list_to_append(Up.R_c,Trans,I,J,Ka,Kc,E)
+            check_list_to_append(Up.c.R[(delta_Ka,delta_Kc)],Trans,I,J,Ka,Kc,E)
     
     elif J==J0:                                      # Q branch
         if   abs(Ka-Ka0)%2 == 0 and abs(Kc-Kc0)%2 == 1:  # a type
             if (delta_Ka,delta_Kc) not in Tr.a.Q.keys():
                 check_list_to_append(Tr.a.Q[(-delta_Ka,-delta_Kc)],Trans,I,J,Ka,Kc,E)
+                check_list_to_append(Up.a.Q[(-delta_Ka,-delta_Kc)],Trans,I,J,Ka,Kc,E)
             else:
                 check_list_to_append(Tr.a.Q[(delta_Ka,delta_Kc)],Trans,I,J,Ka,Kc,E)
-            #check_list_to_append(Up.Q_a,Trans,I,J,Ka,Kc,E)
+                check_list_to_append(Up.a.Q[(delta_Ka,delta_Kc)],Trans,I,J,Ka,Kc,E)
         elif abs(Ka-Ka0)%2 == 1 and abs(Kc-Kc0)%2 == 1:  # b type
             check_list_to_append(Tr.b.Q[(delta_Ka,delta_Kc)],Trans,I,J,Ka,Kc,E)
-            #check_list_to_append(Up.Q_b,Trans,I,J,Ka,Kc,E)
+            check_list_to_append(Up.b.Q[(delta_Ka,delta_Kc)],Trans,I,J,Ka,Kc,E)
         elif abs(Ka-Ka0)%2 == 1 and abs(Kc-Kc0)%2 == 0:  # c type
             if (delta_Ka,delta_Kc) not in Tr.c.Q.keys():
                 check_list_to_append(Tr.c.Q[(-delta_Ka,-delta_Kc)],Trans,I,J,Ka,Kc,E)
-                #check_list_to_append(Up.Q_c,Trans,I,J,Ka,Kc,E)
+                check_list_to_append(Up.c.Q[(-delta_Ka,-delta_Kc)],Trans,I,J,Ka,Kc,E)
             else:
                 check_list_to_append(Tr.c.Q[(delta_Ka,delta_Kc)],Trans,I,J,Ka,Kc,E)
+                check_list_to_append(Up.c.Q[(delta_Ka,delta_Kc)],Trans,I,J,Ka,Kc,E)
             
     elif J>J0:                                       # P branch
         if   abs(Ka-Ka0)%2 == 0 and abs(Kc-Kc0)%2 == 1:  # a type
             check_list_to_append(Tr.a.P[(delta_Ka,delta_Kc)],Trans,I,J,Ka,Kc,E)
-            #check_list_to_append(Up.P_a,Trans,I,J,Ka,Kc,E)
+            check_list_to_append(Up.a.P[(delta_Ka,delta_Kc)],Trans,I,J,Ka,Kc,E)
         elif abs(Ka-Ka0)%2 == 1 and abs(Kc-Kc0)%2 == 1:  # b type
             check_list_to_append(Tr.b.P[(delta_Ka,delta_Kc)],Trans,I,J,Ka,Kc,E)
-            #check_list_to_append(Up.P_b,Trans,I,J,Ka,Kc,E)
+            check_list_to_append(Up.b.P[(delta_Ka,delta_Kc)],Trans,I,J,Ka,Kc,E)
         elif abs(Ka-Ka0)%2 == 1 and abs(Kc-Kc0)%2 == 0:  # c type
             check_list_to_append(Tr.c.P[(delta_Ka,delta_Kc)],Trans,I,J,Ka,Kc,E)
-            #check_list_to_append(Up.P_c,Trans,I,J,Ka,Kc,E)
+            check_list_to_append(Up.b.P[(delta_Ka,delta_Kc)],Trans,I,J,Ka,Kc,E)

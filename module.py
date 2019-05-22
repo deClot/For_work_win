@@ -92,7 +92,7 @@ def main_function(src):
            J0, Ka0, Kc0 =int(J0), int(Ka0), int(Kc0)
 
            Up_State1 = Seria(J0, Ka0, Kc0)
-           Up = Transition(J0, Ka0, Kc0)
+           Up_State_current = Seria(J0, Ka0, Kc0)
            count += 1  #+1 for first series
            ref = Up_State1
            break
@@ -107,10 +107,10 @@ def main_function(src):
            J0, Ka0, Kc0 =int(J0), int(Ka0), int(Kc0)
 
            #We registred next energy,so write info about previous energy in file
-           write_search(Up_State1,file_search)
+           write_search(Up_State_current,file_search)
            file_search.write('   '+str1)
 
-           Up = Transition(J0, Ka0, Kc0)
+           Up_State_current = Seria(J0, Ka0, Kc0)
            # stay in same series
            if abs(ref.J-J0) == abs(ref.Kc-Kc0) and ref.Ka == Ka0:
                continue
@@ -129,7 +129,7 @@ def main_function(src):
        else:
            print(str1)
            separate_transitions.Separate_transitions(J0,Ka0,Kc0,str1,\
-                                                    ref,Up)
+                                                     ref,Up_State_current)
     print('Finished reading file')
     print(Up_State1.c.P)
     write_search(Up,file_search)
