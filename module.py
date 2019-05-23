@@ -43,6 +43,7 @@ class Transition_a_type:
 class Transition_b_type:
     def __init__(self):
         self.R = {(-1, -1) : [],
+                  (0, 0) : [],
                   (+1, -3) : [],
                   (-3, +1) : [],
                   (-1, +1) : [],
@@ -53,13 +54,14 @@ class Transition_b_type:
                   (+1, -1) : [],
                   (-3, +3) : [],
                   (+3, -3) : []}
-        self.P = {(+1, +1) : [],
-                  (-1, +3) : [],
-                  (+3, -1) : [],
-                  (-1, +1) : [],
+        self.P = {(-1, +1) : [],
                   (+1, -1) : [],
+                  (0, 0): [],
                   (-3, +3) : [],
-                  (+3, -3) : []}
+                  (+3, -3) : [],
+                  (+1, +1) : [],
+                  (-1, +3) : [],
+                  (+3, -1) : []}
 
 class Transition_c_type:
     def __init__(self):
@@ -102,7 +104,7 @@ def main_function(src):
     
     # Go through all file_ini and find all energies for max two series 
     for str1 in file_ini:
-       if str1.find('Sea',0,len(str1))!=-1:
+        if str1.find('Sea',0,len(str1))!=-1:
            _,J0,Ka0,Kc0,*_ = str1.split()
            J0, Ka0, Kc0 =int(J0), int(Ka0), int(Kc0)
 
@@ -126,12 +128,15 @@ def main_function(src):
                        ref = Up_State2
                    elif ref == Up_State2:
                        ref = Up_State1
-       else:
+        else:
            print(str1)
            separate_transitions.Separate_transitions(J0,Ka0,Kc0,str1,\
                                                      ref,Up_State_current)
+
+    # writing in search info about last "Searching"
+    write_search(Up_State_current,file_search)
+        
     print('Finished reading file')
-    print(Up_State1.c.P)
     write_search(Up,file_search)
     file_ini.close()
     file2 = open('RESULTS', 'w')

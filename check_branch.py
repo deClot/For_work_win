@@ -25,50 +25,9 @@ def check_list_to_append(branch,Trans,I,J,Ka,Kc,E):
         branch.append([Trans,I,J,Ka,Kc,E])
     else:
         branch.append([Trans,I,J,Ka,Kc,E])
-        
-
-def check_branch_ini(J0,J,Ka0,Ka,Kc0,Kc,Trans,I,E,Tr,Up):
-    '''
-    Chech branch on series name; add transition on corresponding quantum numbers;\
-if there are the emptities in list, add empty transitions for it
-    '''
-    
-    J,Ka,Kc,Trans,I,E=quan_number.Quantum_numbers (J,Ka,Kc,Trans,I,E) #transform to int and float
-    if abs(Ka-Ka0)<2 and abs(Kc-Kc0)<2:    # allowed transitions
-        if J==J0:                                        # Q branch
-            if   abs(Ka-Ka0) == 0 and abs(Kc-Kc0) == 1:  # a type
-                check_list_to_append(Tr.Q_a,Trans,I,J,Ka,Kc,E)
-                check_list_to_append(Up.Q_a,Trans,I,J,Ka,Kc,E)
-            elif abs(Ka-Ka0) == 1 and abs(Kc-Kc0) == 1:  # b type
-                check_list_to_append(Tr.Q_b,Trans,I,J,Ka,Kc,E)
-                check_list_to_append(Up.Q_b,Trans,I,J,Ka,Kc,E)
-            elif abs(Ka-Ka0) == 1 and abs(Kc-Kc0) == 0:  # c type
-                check_list_to_append(Tr.Q_c,Trans,I,J,Ka,Kc,E)
-                check_list_to_append(Up.Q_c,Trans,I,J,Ka,Kc,E)
-        elif J<J0:
-            if   abs(Ka-Ka0) == 0 and abs(Kc-Kc0) == 1:  # a type
-                check_list_to_append(Tr.R_a,Trans,I,J,Ka,Kc,E)
-                check_list_to_append(Up.R_a,Trans,I,J,Ka,Kc,E)
-            elif abs(Ka-Ka0) == 1 and abs(Kc-Kc0) == 1:  # b type
-                check_list_to_append(Tr.R_b,Trans,I,J,Ka,Kc,E)
-                check_list_to_append(Up.R_b,Trans,I,J,Ka,Kc,E)
-            elif abs(Ka-Ka0) == 1 and abs(Kc-Kc0) == 0:  # c type
-                check_list_to_append(Tr.R_c,Trans,I,J,Ka,Kc,E)
-                check_list_to_append(Up.R_c,Trans,I,J,Ka,Kc,E)
-        elif J>J0:
-            if   abs(Ka-Ka0) == 0 and abs(Kc-Kc0) == 1:  # a type
-                check_list_to_append(Tr.P_a,Trans,I,J,Ka,Kc,E)
-                check_list_to_append(Up.P_a,Trans,I,J,Ka,Kc,E)
-            elif abs(Ka-Ka0) == 1 and abs(Kc-Kc0) == 1:  # b type
-                check_list_to_append(Tr.P_b,Trans,I,J,Ka,Kc,E)
-                check_list_to_append(Up.P_b,Trans,I,J,Ka,Kc,E)
-            elif abs(Ka-Ka0) == 1 and abs(Kc-Kc0) == 0:  # c type
-                check_list_to_append(Tr.P_c,Trans,I,J,Ka,Kc,E)
-                check_list_to_append(Up.P_c,Trans,I,J,Ka,Kc,E)
-    
+           
 def check_branch(J0,J,Ka0,Ka,Kc0,Kc,Trans,I,E,Tr,Up):
-    '''
-    Chech branch on series name; add transition on corresponding quantum numbers;\
+    '''    Check branch on series name; add transition on corresponding quantum numbers;\
 if there are the emptities in list, add empty transitions for it
     '''
     
@@ -83,9 +42,8 @@ if there are the emptities in list, add empty transitions for it
             check_list_to_append(Tr.b.R[(delta_Ka,delta_Kc)],Trans,I,J,Ka,Kc,E)
             check_list_to_append(Up.b.R[(delta_Ka,delta_Kc)],Trans,I,J,Ka,Kc,E)
         elif abs(Ka-Ka0)%2 == 1 and abs(Kc-Kc0)%2 == 0:  # c type
-            print('c type')
-            check_list_to_append(Tr.c.R[(delta_Ka,delta_Kc)],Trans,I,J,Ka,Kc,E)
-            check_list_to_append(Up.c.R[(delta_Ka,delta_Kc)],Trans,I,J,Ka,Kc,E)
+             check_list_to_append(Tr.c.R[(delta_Ka,delta_Kc)],Trans,I,J,Ka,Kc,E)
+             check_list_to_append(Up.c.R[(delta_Ka,delta_Kc)],Trans,I,J,Ka,Kc,E)
     
     elif J==J0:                                      # Q branch
         if   abs(Ka-Ka0)%2 == 0 and abs(Kc-Kc0)%2 == 1:  # a type
@@ -99,7 +57,10 @@ if there are the emptities in list, add empty transitions for it
             check_list_to_append(Tr.b.Q[(delta_Ka,delta_Kc)],Trans,I,J,Ka,Kc,E)
             check_list_to_append(Up.b.Q[(delta_Ka,delta_Kc)],Trans,I,J,Ka,Kc,E)
         elif abs(Ka-Ka0)%2 == 1 and abs(Kc-Kc0)%2 == 0:  # c type
+            print((delta_Ka,delta_Kc))
+            print(Tr.c.Q.keys())
             if (delta_Ka,delta_Kc) not in Tr.c.Q.keys():
+                print('NOT')
                 check_list_to_append(Tr.c.Q[(-delta_Ka,-delta_Kc)],Trans,I,J,Ka,Kc,E)
                 check_list_to_append(Up.c.Q[(-delta_Ka,-delta_Kc)],Trans,I,J,Ka,Kc,E)
             else:
@@ -115,4 +76,4 @@ if there are the emptities in list, add empty transitions for it
             check_list_to_append(Up.b.P[(delta_Ka,delta_Kc)],Trans,I,J,Ka,Kc,E)
         elif abs(Ka-Ka0)%2 == 1 and abs(Kc-Kc0)%2 == 0:  # c type
             check_list_to_append(Tr.c.P[(delta_Ka,delta_Kc)],Trans,I,J,Ka,Kc,E)
-            check_list_to_append(Up.b.P[(delta_Ka,delta_Kc)],Trans,I,J,Ka,Kc,E)
+            check_list_to_append(Up.c.P[(delta_Ka,delta_Kc)],Trans,I,J,Ka,Kc,E)
