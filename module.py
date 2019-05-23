@@ -129,16 +129,13 @@ def main_function(src):
                    elif ref == Up_State2:
                        ref = Up_State1
         else:
-           print(str1)
            separate_transitions.Separate_transitions(J0,Ka0,Kc0,str1,\
                                                      ref,Up_State_current)
 
     # writing in search info about last "Searching"
     write_search(Up_State_current,file_search)
-        
-    print('Finished reading file')
-    write_search(Up,file_search)
     file_ini.close()
+
     file2 = open('RESULTS', 'w')
 
     if count > 1:
@@ -147,12 +144,11 @@ def main_function(src):
 
     for name in name_list:
         file2.write('\tR branch'+'\t'*19+'P branch'+'\t'*19+'Q branch\n')
-        
-        branches_a = [name.R_a, name.P_a, name.Q_a]
-        branches_b = [name.R_b, name.P_b, name.Q_b]
-        branches_c = [name.R_c, name.P_c, name.Q_c]
-        
-        for branches in (branches_a, branches_b, branches_c):
+
+        types = [name.a, name.b, name.c]
+
+        for t in types:
+            branches = [t.R, t.Q, t.P]
             write_predictions(branches, file2)
             
     file2.close()

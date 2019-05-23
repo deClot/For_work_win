@@ -13,7 +13,7 @@ def check_list_to_append(branch,Trans,I,J,Ka,Kc,E):
             Trans = (Trans + branch[-1][0])/2
             E = (E + branch[-1][-1])/2
             branch.pop(-1)
-            branch.append([Trans,I,J,Ka,Kc,E,'combination'])
+            branch.append([Trans,I,J,Ka,Kc,E,'comb'])
             return None
             
         # If current transitions is not uniform continuation of last transitions. Compare J and Ka
@@ -57,10 +57,7 @@ if there are the emptities in list, add empty transitions for it
             check_list_to_append(Tr.b.Q[(delta_Ka,delta_Kc)],Trans,I,J,Ka,Kc,E)
             check_list_to_append(Up.b.Q[(delta_Ka,delta_Kc)],Trans,I,J,Ka,Kc,E)
         elif abs(Ka-Ka0)%2 == 1 and abs(Kc-Kc0)%2 == 0:  # c type
-            print((delta_Ka,delta_Kc))
-            print(Tr.c.Q.keys())
             if (delta_Ka,delta_Kc) not in Tr.c.Q.keys():
-                print('NOT')
                 check_list_to_append(Tr.c.Q[(-delta_Ka,-delta_Kc)],Trans,I,J,Ka,Kc,E)
                 check_list_to_append(Up.c.Q[(-delta_Ka,-delta_Kc)],Trans,I,J,Ka,Kc,E)
             else:

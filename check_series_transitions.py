@@ -114,18 +114,23 @@ def check_series_transitions_delta(branch):
     Check transitions; if there are None - calculate possibale value;
     calculate deltas for all transitions;
     '''
+
+    print(branch)
     if len(branch) == 0:
         return None
     J, Ka = branch[0][2],branch[0][3]
 
+    for i in range(len(branch)):
+        if len(branch[i]) == 7: # include 'combination'
+            branch[i][1] = 'c' + str(branch[i][1])
+            branch[i].pop(-1)
     # calculate delta1 for excisting transitions
     for i in range(1, len(branch)):
         calculate_delta(branch, i, delta_type=1)
-        
     # calculate delta2 for excisting transitions
     for i in range(1, len(branch)):
         calculate_delta(branch, i, delta_type=2)
-
+    
     # calculate delta1 and delta2 for empty transitions
     for i in range(0, len(branch)):
         fill_empties_delta(branch, i, k=1)
@@ -134,6 +139,7 @@ def check_series_transitions_delta(branch):
     for i in range(0, len(branch)):
         calculate_None_transitions(branch, i)
 
+        
     # calculate first transitions up to 0
     calculate_beginning_serie(branch)
     

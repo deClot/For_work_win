@@ -16,6 +16,9 @@ def correction_tr_pred(branch):
         branch[0] = round(branch[0], 5)
 
     if branch[1] != None:
+        if isinstance(branch[1], str):
+            branch[1] = float(branch[1][1:])
+            branch.append('c')
         branch[1] = round(branch[1], 1)
     else:
         branch[1] = ''
@@ -25,6 +28,8 @@ def correction_tr_pred(branch):
             branch[i] = round(branch[i],3)
         except IndexError:
             return None
+
+    
 
 
 def correction_tr_search(branch):
@@ -43,7 +48,10 @@ def correction_tr_search(branch):
     
 
 def format_for_output(branch):
-    template = '{:<10}{:>6}{:>4}{:>3}{:>3} |'.format(*branch)
+    if len(branch) == 9:
+        template = '{:<10}{:>6} C{:>2}{:>3}{:>3} |'.format(*branch)
+    else:
+        template = '{:<10}{:>6}{:>4}{:>3}{:>3} |'.format(*branch)
     for i in (6,7):
         try:
             template_delta = '{:<6} '.format(*branch[i:])
